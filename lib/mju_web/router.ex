@@ -18,6 +18,7 @@ defmodule MJUWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    resources "/users", UserController, only: [:index, :show, :new, :create]
   end
 
   # Other scopes may use custom stacks.

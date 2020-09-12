@@ -3,24 +3,32 @@ defmodule MJU.Accounts do
   The accounts context.
   """
 
+  alias MJU.Repo;
   alias MJU.Accounts.User;
 
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def list_users do
-    [
-      %User{id: "1", name: "David", username: "david@mju.io"},
-      %User{id: "2", name: "Sedat", username: "sedat@mju.io"},
-      %User{id: "3", name: "Friend", username: "friend@example.com"},
-      %User{id: "4", name: "Foe", username: "foe@example.com"},
-    ]
+    Repo.all(User)
   end
 
   def get_user(id) do
-    Enum.find(list_users(), fn map -> map.id == id end)
+    Repo.get(User, id)
+  end
+
+  def get_user!(id) do
+    Repo.get!(User, id)
   end
 
   def get_user_by(params) do
-    Enum.find(list_users(), fn map ->
-      Enum.all?(params, fn {key, val} -> Map.get(map, key) == val end)
-    end)
+    Repo.get_by(User, params)
+  end
+
+  def change_user(%User{} = user) do
+    User.changeset(user, %{})
   end
 end
