@@ -3,8 +3,8 @@ defmodule MJU.Accounts do
   The accounts context.
   """
 
-  alias MJU.Repo;
-  alias MJU.Accounts.User;
+  alias MJU.Repo
+  alias MJU.Accounts.User
 
   def create_user(attrs \\ %{}) do
     %User{}
@@ -40,5 +40,21 @@ defmodule MJU.Accounts do
     %User{}
     |> User.registration_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def authenticate_by_username_and_pass(username, password) do
+    user = get_user_by(username: username)
+
+    cond do
+      user && Pbkdf2.verify_pass(password, user.password_hash) ->
+        {:ok, user}
+
+      user ->
+        {:error, :unauthorized}
+
+      true ->
+        Pbkdf2.no_user_verify()
+        {:error, :not_found}
+    end
   end
 end
