@@ -7,6 +7,17 @@ defmodule MJU.Multimedia do
   alias MJU.Repo
   alias MJU.Accounts
   alias MJU.Multimedia.Video
+  alias MJU.Multimedia.Category
+
+  def create_category!(name) do
+    Repo.insert!(%Category{name: name}, on_conflict: :nothing)
+  end
+
+  def list_alphabetical_categories do
+    Category
+    |> Category.alphabetical
+    |> Repo.all()
+  end
 
   @doc """
   Returns the list of videos.
