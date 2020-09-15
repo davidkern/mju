@@ -23,6 +23,7 @@ defmodule MJUWeb do
 
       import Plug.Conn
       import MJUWeb.Gettext
+      import MJUWeb.Auth, only: [authenticate_user: 2]
       alias MJUWeb.Router.Helpers, as: Routes
     end
   end
@@ -66,6 +67,7 @@ defmodule MJUWeb do
       import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+      import MJUWeb.Auth, only: [authenticate_user: 2]
     end
   end
 

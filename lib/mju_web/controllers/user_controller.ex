@@ -4,7 +4,7 @@ defmodule MJUWeb.UserController do
   alias MJU.Accounts
   alias MJU.Accounts.User
 
-  plug :authenticate when action in [:index, :show]
+  plug :authenticate_user when action in [:index, :show]
 
   def create(conn, %{"user" => user_params}) do
     case Accounts.register_user(user_params) do
@@ -32,16 +32,5 @@ defmodule MJUWeb.UserController do
   def new(conn, _params) do
     changeset = Accounts.change_registration(%User{}, %{})
     render(conn, "new.html", changeset: changeset)
-  end
-
-  defp authenticate(conn, _opts) do
-    if conn.assigns.current_user do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must be logged in to access that page")
-      |> redirect(to: Routes.page_path(conn, :index))
-      |> halt()
-    end
   end
 end
