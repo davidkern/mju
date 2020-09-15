@@ -6,7 +6,9 @@ defmodule MJU.Multimedia.Video do
     field :description, :string
     field :title, :string
     field :url, :string
+
     belongs_to :user, MJU.Accounts.User
+    belongs_to :category, MJU.Multimedia.Category
 
     timestamps()
   end
